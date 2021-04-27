@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+
+    .cha{
+        position: relative;
+    }
+    .circle {
+        width: 400px;
+        height: 400px;
+        margin: 200px 500px;
+        position: absolute;
+        overflow: hidden;
+    }
+
+    .triangle {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        border-radius: 50%;
+        clip-path: polygon(0 21.5%, 0 79.5%, 50% 50%);
+    }
+
+    .start {
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        border-radius: 50%;
+        background-color: white;
+        margin-top: 175px;
+        margin-left: 175px;
+        z-index: 2;
+    }
+
+    .start p {
+        text-align: center;
+        margin-top: 40%;
+    }
+
+    .text {
+        position: absolute;
+        color: black;
+        font-size: 20px;
+        text-align: center;
+        margin: 50% 5%;
+        opacity: 1;
+    }
+
+    .triangle:nth-of-type(1) {
+        transform: rotate(0deg);
+        background-color: burlywood;
+    }
+
+    .triangle:nth-of-type(2) {
+        transform: rotate(60deg);
+        background-color: chartreuse;
+    }
+
+    .triangle:nth-of-type(3) {
+        transform: rotate(120deg);
+        background-color: cyan;
+    }
+
+    .triangle:nth-of-type(4) {
+        transform: rotate(180deg);
+        background-color: darkmagenta;
+    }
+
+    .triangle:nth-of-type(5) {
+        transform: rotate(240deg);
+        background-color: darkorange;
+    }
+
+    .triangle:nth-of-type(6) {
+        transform: rotate(300deg);
+        background-color: forestgreen;
+    }
+
+    #nhapsovong {
+        width: 200px;
+        height: 50px;
+        margin-left: 400px;
+    }
+
+    .muiten{
+        width: 100px;
+        height: 50px;
+        margin-left: 430px;
+        clip-path: polygon(0 0, 0 100%, 100% 50%);
+        background-color: brown;
+        position: absolute;
+        margin-top: 350px;
+        border-radius: 20%;
+    }
+
+</style>
+</style>
+
+<body>
+    <div class="cha">
+    <div class="circle">
+        <div class="triangle">
+            <div class="text">Nguyễn Văn A</div>
+        </div>
+        <div class="triangle">
+            <div class="text">Nguyễn Văn B</div>
+        </div>
+        <div class="triangle">
+            <div class="text">Nguyễn Văn C</div>
+        </div>
+        <div class="triangle">
+            <div class="text">Nguyễn Văn D</div>
+        </div>
+        <div class="triangle">
+            <div class="text">Nguyễn Văn E</div>
+        </div>
+        <div class="triangle">
+            <div class="text">Nguyễn Văn F</div>
+        </div>
+
+        <div class="start">
+            <p>START</p>
+        </div>
+
+        
+    </div>
+
+    <div class="muiten"></div>
+
+</div>
+</body>
+<script>
+    const circle = document.querySelector('.circle');
+    const triangle = document.querySelectorAll(".triangle");
+    const start = document.querySelector('.start');
+    const kq = document.querySelector('.ketqua');
+
+    let ran = randomSoVong(1, 6);
+    let tongso = ran;
+    let y = 1;
+
+    start.addEventListener('click', function quay() {
+        circle.style.transform = `rotate(${tongso * 60 + (360 * 10) * y}deg)`;
+        let result = resultran(tongso, ran);
+
+        ran += randomSoVong(1, 6);
+        y += 1;
+        tongso = ran;
+        circle.style.transition = `10s`;
+
+        if(result == 0){   
+            setTimeout(function(){alert('Nguyen Van A'); }, 10500);
+        }
+        else if(result == 1){
+            setTimeout(function(){alert('Nguyen Van F'); }, 10500);
+        }
+        else if(result == 2){
+            setTimeout(function(){ alert('Nguyen Van E'); }, 10500);
+        }
+        else if(result == 3){
+            setTimeout(function(){alert('Nguyen Van D'); }, 10500);
+        }
+        else if(result == 4){
+            setTimeout(function(){alert('Nguyen Van C'); }, 10500);
+        }else if(result == 5){
+            setTimeout(function(){alert('Nguyen Van B'); }, 10500);
+        }
+
+    });
+
+
+    function randomSoVong(min, max) {
+        var i = (Math.random() * 32768) >>> 0;
+        return (i % (min - max)) + min;
+    }
+
+    function resultran(tongso, ran) {
+        if (tongso > 6) {
+            return tongso % 6;
+        }
+        else {
+            return ran;
+        }
+    }
+
+
+</script>
+
+</html>
