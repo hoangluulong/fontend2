@@ -14,7 +14,10 @@ if(isset($_GET['page'])) {
 }
 //$page = isset($_GET['page']) ? $_GET['page'] : 1;
 
+
+
 $productList = $productModel->getProductsByPage($perPage, $page);
+//$productListByCategory = $productModel->getProductsByCategory($id);
 
 
 
@@ -30,7 +33,11 @@ $pageLinks = Pagination::createPageLinks($totalRow, $perPage, $page);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
+
 </head>
 <body>
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
@@ -65,6 +72,25 @@ $pageLinks = Pagination::createPageLinks($totalRow, $perPage, $page);
 
     <div class="container">
         <div class="row">
+        <div class="col-md-3">
+                <h2>Danh mục</h2>
+                <ul>
+                <?php
+                foreach ($categoryList as $item) {
+                ?>
+                <li class="nav-item">
+                    <label>
+                    <?php echo $item['category_name']; ?>
+                    <input type="checkbox" name="" class="checkbox" onclick="getProductsByCategory()" value="<?php echo($item['id']);?>">
+                    <lable>
+                </li>
+                <?php
+                }
+                ?>
+                </ul>
+        </div>
+        <div class="col-md-9">
+        <div class="row" id="cardID">
             <?php
             foreach ($productList as $item) {
             ?>
@@ -86,10 +112,30 @@ $pageLinks = Pagination::createPageLinks($totalRow, $perPage, $page);
             }
             ?>
         </div>
+        </div>
+        </div>
         <?php echo $pageLinks; ?>
+
     </div>
-    <div id="result"></div>
+
+<!-- Modal -->
+<div class="modal fade" id="productModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="titleModel"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div id="result">
+        
+      </div>
+    </div>
+  </div>
+</div>
 </body>
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 
 <script src="./public/js/ajax.js"></script>
+
 </html>
