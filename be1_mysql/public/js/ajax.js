@@ -126,3 +126,44 @@ var i;
 
 divresult.innerHTML =  noidung;
 }
+
+async function searchProduct() {
+    
+    const url = "productsearchdetail.php";
+    const kqtimkiem = document.querySelector('.ketqua');
+
+    const key = document.getElementById("search1").value;
+
+    const data = { 'key' :  key};
+
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+            'Accept': 'application/json;charset=UTF-8'
+        },
+        body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+    
+    kqtimkiem.innerHTML = "";
+    let ketqua = "";
+    if(result.length != 0){
+        kqtimkiem.style.display = "block";
+        for(let i =0; i < result.length; i++){
+            kqtimkiem.innerHTML += `
+            <div class="nametext">
+                <a href="product.php/${result[i].product_name}-${result[i].id}">
+                    ${result[i].product_name}
+                </a>
+            </div>
+            
+            `;
+        }
+    }else{
+        kqtimkiem.style.display = "none";
+        kqtimkiem.innerHTML = "";
+    }
+    
+}

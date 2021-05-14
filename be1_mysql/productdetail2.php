@@ -20,7 +20,6 @@ if (count($ids)!=0) {
     $array1 = $productModel->getProductsByPage(3, 1);
 }
 
-
 /* 
     $list = [];
     $productModel = new ProductModel();
@@ -33,9 +32,7 @@ if (count($ids)!=0) {
     if(count($list)==0){
         $list = $productModel->getProductsByPage(3, 1);
     }
-
     echo json_encode($list);
-
 */
 
 echo json_encode($array1);

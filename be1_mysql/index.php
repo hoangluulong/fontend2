@@ -14,12 +14,8 @@ if(isset($_GET['page'])) {
 }
 //$page = isset($_GET['page']) ? $_GET['page'] : 1;
 
-
-
 $productList = $productModel->getProductsByPage($perPage, $page);
 //$productListByCategory = $productModel->getProductsByCategory($id);
-
-
 
 $categoryModel = new CategoryModel();
 $categoryList = $categoryModel->getCategories();
@@ -33,24 +29,47 @@ $pageLinks = Pagination::createPageLinks($totalRow, $perPage, $page);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-
-<!-- CSS only -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 
+<style>
+    .navbar{
+        position: relative;
+    }
 
+    .ketqua{
+        margin-top: 50px;
+        width: 100px; 
+        height: 50px; 
+        z-index: 10;
+        position: absolute;
+        display: none;
+    }        
+    .nametext{
+        background: #a1a2a2;
+        padding: 10px;
+        width: 370px;
+        border-bottom: 1px solid black;
+    }
+
+    .nametext a{
+        padding: 10px;
+        text-decoration: none;
+        color: black;
+    }
+</style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="collapsibleNavId">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
+
+
+<div class="container">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                 <?php
                 foreach ($categoryList as $item) {
@@ -62,13 +81,16 @@ $pageLinks = Pagination::createPageLinks($totalRow, $perPage, $page);
                 }
                 ?>
                 
-            </ul>
-            <form class="form-inline my-2 my-lg-0" action="search.php" method="get">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" name="q">
+      </ul>
+      <form class="d-flex" action="search.php" method="get">
+      <input class="form-control mr-sm-2" type="text" placeholder="Search" name="q" id="search1" onkeyup="searchProduct()">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-        </div>
-    </nav>
+                <div class="ketqua">
+                </div>
+      </form>
+    </div>
+  </div>
+</nav></div>
 
     <div class="container">
         <div class="row">
@@ -115,9 +137,7 @@ $pageLinks = Pagination::createPageLinks($totalRow, $perPage, $page);
         </div>
         </div>
         <?php echo $pageLinks; ?>
-
     </div>
-
 <!-- Modal -->
 <div class="modal fade" id="productModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
