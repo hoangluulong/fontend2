@@ -111,9 +111,11 @@ divresult.innerHTML =  noidung;
 let noidung = '';
 var i;
     for (i = 0; i < arr.length; i++) {
+
+        let name = arr[i].product_name.replace('  ', '-');
         noidung +=  `<div class="col-md-4">
         <div class="card">
-            <a href="product.php/<?php echo $productPath; ?>">
+            <a href="product.php/${name}-${arr[i].id}">
                 <img src="./public/images/${arr[i].product_photo}" class="card-img-top" alt="...">
             </a>
             <div class="card-body">
@@ -165,5 +167,101 @@ async function searchProduct() {
         kqtimkiem.style.display = "none";
         kqtimkiem.innerHTML = "";
     }
-    
 }
+
+let page = 6;
+async function readmore() {
+    const divresult = document.querySelector('#cardID');
+    const disp = document.querySelector('#more');
+    const load = document.querySelector('.windows8');
+    const bodyid = document.querySelector('#body-id');
+
+    load.style.display = "block";
+    bodyid.style.opacity =  '0.5';
+
+
+    const url = "productdetailreadmore.php";
+    const data = { 'page' :  page};
+
+    page+=3;
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+            'Accept': 'application/json;charset=UTF-8'
+        },
+        body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+    load.style.display = "none";
+    bodyid.style.opacity = '1';
+    
+    console.log(result);
+    if(result[result.length - 1] === "stop"){
+        disp.style.display = 'none';
+
+        let name = result[i].product_name.replace(' ', '-');
+        let noidung = '';
+        var i;
+        for (i = 0; i < result.length - 1; i++) {
+            noidung +=  `<div class="col-md-4">
+            <div class="card">
+                <a href="product.php/${name}-${result[i].id}">
+                    <img src="./public/images/${result[i].product_photo}" class="card-img-top" alt="...">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title" onclick="getProductByID(${result[i].id})">${result[i].product_name}</h5>
+                    <p class="card-text">${result[i].product_price}</p>
+                </div>
+            </div>
+        </div>`;
+
+        divresult.innerHTML = noidung;
+      }
+    }else{
+        let noidung = '';
+        var i;
+        for (i = 0; i < result.length; i++) {
+
+            let name = result[i].product_name.replace('  ', '-');
+
+            noidung +=  `<div class="col-md-4">
+            <div class="card">
+                <a href="product.php/${name}-${result[i].id}">
+                    <img src="./public/images/${result[i].product_photo}" class="card-img-top" alt="...">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title" onclick="getProductByID(${result[i].id})">${result[i].product_name}</h5>
+                    <p class="card-text">${result[i].product_price}</p>
+                </div>
+            </div>
+        </div>`;
+      }
+      divresult.innerHTML = noidung;
+    }
+}
+
+async function like(id) {
+    const url = "productdetaillike.php";
+
+    let classlike = '.solike'+id;
+    const solike = document.querySelectorAll(classlike);
+
+    const data = { 'id' :  id};
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+            'Accept': 'application/json;charset=UTF-8'
+        },
+        body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+
+    solike.forEach(function(e) {
+        e.innerHTML = result.like;
+      });
+}
+

@@ -92,5 +92,19 @@ class ProductModel extends Db
         $sql->bind_param('i', $id);
         return $sql->execute();
     }
+
+    //hàm tăng like
+    public function updateLike($id){
+        $sql = parent::$connection->prepare("UPDATE `products` SET `like` = `like` + 1 WHERE `products`.`id` = ?;");
+        $sql->bind_param('i', $id);
+        return $sql->execute();
+    }
+
+    //hàm tăng like
+    public function getLike($id){
+        $sql = parent::$connection->prepare("UPDATE `products` SET `like` = `like` + 1 WHERE `products`.`id` = ?;");
+        $sql->bind_param('i', $id);
+        return $sql->execute();
+    }
 }
     
